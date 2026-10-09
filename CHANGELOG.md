@@ -15,6 +15,8 @@ est désormais le seul récit de ce dépôt.
 
 ## [Unreleased]
 
+## [1.5.0] - 2026-10-09
+
 ### Modifié
 
 - **La branche par défaut passe de `master` à `main`**, comme tout le parc. Elle l'était restée parce que
