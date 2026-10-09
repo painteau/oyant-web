@@ -17,10 +17,13 @@ est désormais le seul récit de ce dépôt.
 
 ### Modifié
 
+- **La branche par défaut passe de `master` à `main`**, comme tout le parc. Elle l'était restée parce que
+  le dépôt avait été créé avant la règle. Le projet Cloudflare Pages suit (branche de production), ainsi
+  que les deux workflows.
 - **Le site ne se publie plus à chaque push sur `master` : il passe par un tag `vX.Y.Z`**, comme le
   reste du parc. Cloudflare Pages publiait la branche à chaque commit, ce qui est contraire à la
   convention (rien ne se déploie sur un push de branche). Le nouveau workflow `deploy.yml` demande à
-  Cloudflare, par son API, de construire la pointe de `master`, et **refuse si le tag ne la désigne
+  Cloudflare, par son API, de construire la pointe de `main`, et **refuse si le tag ne la désigne
   pas** : sinon le tag annoncerait un contenu que le site ne porte pas. Il attend la fin de la
   construction (étape `deploy` au statut `success`) et vérifie que le site répond 200. Lancement manuel
   possible (`workflow_dispatch`). Les déploiements automatiques de Cloudflare sont coupés.

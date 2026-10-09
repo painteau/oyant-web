@@ -1,14 +1,14 @@
 name: Deploy
 
-# Le site vit sur Cloudflare Pages, relie a la branche master. Cloudflare publiait a CHAQUE push sur
-# master, ce qui est contraire a la convention du parc : rien ne se deploie sur un push de branche
+# Le site vit sur Cloudflare Pages, relie a la branche main. Cloudflare publiait a CHAQUE push sur
+# main, ce qui est contraire a la convention du parc : rien ne se deploie sur un push de branche
 # (voir admin/docs/ci-versions-health.md). Les deploiements automatiques sont coupes cote Cloudflare,
 # et CE workflow est le seul declencheur : un tag vX.Y.Z, ou un lancement manuel.
 #
 # Pourquoi passer par l'API plutot que par `wrangler pages deploy` : le projet est un projet Pages
 # relie a GitHub, et un tel projet ne peut pas devenir un projet « envoi direct ». Le recreer coute son
 # sous-domaine .pages.dev (fige a la creation, voir admin/docs/cloudflare.md). On demande donc a
-# Cloudflare de construire la POINTE de master, et on refuse de le faire si le tag ne la designe pas :
+# Cloudflare de construire la POINTE de main, et on refuse de le faire si le tag ne la designe pas :
 # sinon le tag annoncerait un contenu que le site ne porte pas.
 
 on:
@@ -49,15 +49,15 @@ jobs:
             exit 1
           fi
 
-      - name: Le tag doit designer la pointe de master
+      - name: Le tag doit designer la pointe de main
         if: github.ref_type == 'tag'
         run: |
           set -eu
-          git fetch origin master
+          git fetch origin main
           tag_sha=$(git rev-parse HEAD)
-          pointe=$(git rev-parse origin/master)
+          pointe=$(git rev-parse origin/main)
           if [ "$tag_sha" != "$pointe" ]; then
-            echo "::error::Le tag ${GITHUB_REF_NAME} (${tag_sha}) n'est pas la pointe de master (${pointe}). Cloudflare construit la pointe : publier maintenant annoncerait un contenu que le tag ne designe pas. Reposer le tag sur master."
+            echo "::error::Le tag ${GITHUB_REF_NAME} (${tag_sha}) n'est pas la pointe de main (${pointe}). Cloudflare construit la pointe : publier maintenant annoncerait un contenu que le tag ne designe pas. Reposer le tag sur main."
             exit 1
           fi
 
@@ -68,7 +68,7 @@ jobs:
           reponse=$(curl -sS -X POST \
             "https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/pages/projects/${PROJET}/deployments" \
             -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" \
-            -F branch=master)
+            -F branch=main)
           echo "$reponse" > reponse.json
           python3 - <<'PY'
           import json, os, sys
@@ -86,10 +86,10 @@ jobs:
       - name: Cloudflare construit le commit attendu
         run: |
           set -eu
-          attendu=$(git rev-parse origin/master 2>/dev/null || git rev-parse HEAD)
+          attendu=$(git rev-parse origin/main 2>/dev/null || git rev-parse HEAD)
           construit="${{ steps.declencher.outputs.commit }}"
           if [ "$construit" != "$attendu" ]; then
-            echo "::error::Cloudflare construit ${construit}, la pointe de master est ${attendu}."
+            echo "::error::Cloudflare construit ${construit}, la pointe de main est ${attendu}."
             exit 1
           fi
 
@@ -97,6 +97,7 @@ jobs:
         run: |
           set -eu
           id="${{ steps.declencher.outputs.id }}"
+          erreurs=0
           for i in $(seq 1 60); do
             curl -sS "https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/pages/projects/${PROJET}/deployments/${id}" \
               -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" > etat.json
@@ -120,7 +121,16 @@ jobs:
             case "$statut" in
               ok) exit 0 ;;
               echec) echo "::error::Le deploiement Cloudflare a echoue."; exit 1 ;;
-              erreur*) echo "::error::Cloudflare a refuse la lecture de l'etat : ${statut}"; exit 1 ;;
+              erreur*)
+                # Cloudflare ne connait pas toujours le deploiement dans la seconde qui suit sa creation :
+                # une erreur isolee se retente, six de suite ne sont plus un delai.
+                erreurs=$((erreurs + 1))
+                if [ "$erreurs" -ge 6 ]; then
+                  echo "::error::Cloudflare refuse la lecture de l'etat : ${statut}"
+                  exit 1
+                fi
+                ;;
+              *) erreurs=0 ;;
             esac
             sleep 10
           done
