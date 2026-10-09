@@ -15,6 +15,18 @@ est désormais le seul récit de ce dépôt.
 
 ## [Unreleased]
 
+### Modifié
+
+- **Le site ne se publie plus à chaque push sur `master` : il passe par un tag `vX.Y.Z`**, comme le
+  reste du parc. Cloudflare Pages publiait la branche à chaque commit, ce qui est contraire à la
+  convention (rien ne se déploie sur un push de branche). Le nouveau workflow `deploy.yml` demande à
+  Cloudflare, par son API, de construire la pointe de `master`, et **refuse si le tag ne la désigne
+  pas** : sinon le tag annoncerait un contenu que le site ne porte pas. Il attend la fin de la
+  construction (étape `deploy` au statut `success`) et vérifie que le site répond 200. Lancement manuel
+  possible (`workflow_dispatch`). Les déploiements automatiques de Cloudflare sont coupés.
+  ⚠️ Le projet est relié à GitHub et ne peut pas devenir un projet « envoi direct » sans perdre son
+  sous-domaine `.pages.dev` (figé à la création), d'où l'appel à l'API plutôt que `wrangler`.
+
 ### Ajouté
 
 - **Page de comparaison**, `/comparatif`. C'était le manque le plus coûteux du site : la question

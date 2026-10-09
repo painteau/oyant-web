@@ -1,0 +1,132 @@
+name: Deploy
+
+# Le site vit sur Cloudflare Pages, relie a la branche master. Cloudflare publiait a CHAQUE push sur
+# master, ce qui est contraire a la convention du parc : rien ne se deploie sur un push de branche
+# (voir admin/docs/ci-versions-health.md). Les deploiements automatiques sont coupes cote Cloudflare,
+# et CE workflow est le seul declencheur : un tag vX.Y.Z, ou un lancement manuel.
+#
+# Pourquoi passer par l'API plutot que par `wrangler pages deploy` : le projet est un projet Pages
+# relie a GitHub, et un tel projet ne peut pas devenir un projet « envoi direct ». Le recreer coute son
+# sous-domaine .pages.dev (fige a la creation, voir admin/docs/cloudflare.md). On demande donc a
+# Cloudflare de construire la POINTE de master, et on refuse de le faire si le tag ne la designe pas :
+# sinon le tag annoncerait un contenu que le site ne porte pas.
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+# Deux deploiements ne se chevauchent jamais, et le second n'annule pas le premier.
+concurrency:
+  group: deploy-pages
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Publier sur Cloudflare Pages
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      PROJET: oyant-web
+      SITE: https://oyant.breizhzion.com
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Les acces Cloudflare sont presents
+        run: |
+          set -eu
+          if [ -z "$CLOUDFLARE_ACCOUNT_ID" ] || [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "::error::CLOUDFLARE_ACCOUNT_ID ou CLOUDFLARE_API_TOKEN est absent des secrets du depot."
+            exit 1
+          fi
+
+      - name: Le tag doit designer la pointe de master
+        if: github.ref_type == 'tag'
+        run: |
+          set -eu
+          git fetch origin master
+          tag_sha=$(git rev-parse HEAD)
+          pointe=$(git rev-parse origin/master)
+          if [ "$tag_sha" != "$pointe" ]; then
+            echo "::error::Le tag ${GITHUB_REF_NAME} (${tag_sha}) n'est pas la pointe de master (${pointe}). Cloudflare construit la pointe : publier maintenant annoncerait un contenu que le tag ne designe pas. Reposer le tag sur master."
+            exit 1
+          fi
+
+      - name: Declencher le deploiement
+        id: declencher
+        run: |
+          set -eu
+          reponse=$(curl -sS -X POST \
+            "https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/pages/projects/${PROJET}/deployments" \
+            -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" \
+            -F branch=master)
+          echo "$reponse" > reponse.json
+          python3 - <<'PY'
+          import json, os, sys
+          d = json.load(open("reponse.json"))
+          if not d.get("success"):
+              print("::error::Cloudflare a refuse le declenchement : %s" % d.get("errors"))
+              sys.exit(1)
+          r = d["result"]
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+              f.write("id=%s\n" % r["id"])
+              f.write("commit=%s\n" % r["deployment_trigger"]["metadata"]["commit_hash"])
+          PY
+
+      - name: Cloudflare construit le commit attendu
+        run: |
+          set -eu
+          attendu=$(git rev-parse origin/master 2>/dev/null || git rev-parse HEAD)
+          construit="${{ steps.declencher.outputs.commit }}"
+          if [ "$construit" != "$attendu" ]; then
+            echo "::error::Cloudflare construit ${construit}, la pointe de master est ${attendu}."
+            exit 1
+          fi
+
+      - name: Attendre la fin du deploiement
+        run: |
+          set -eu
+          id="${{ steps.declencher.outputs.id }}"
+          for i in $(seq 1 60); do
+            curl -sS "https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/pages/projects/${PROJET}/deployments/${id}" \
+              -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" > etat.json
+            statut=$(python3 - <<'PY'
+          import json
+          r = json.load(open("etat.json"))["result"]
+          etapes = r["stages"]
+          if any(e["status"] == "failure" for e in etapes):
+              print("echec")
+          elif r["latest_stage"]["name"] == "deploy" and r["latest_stage"]["status"] == "success":
+              print("ok")
+          else:
+              print("encours " + r["latest_stage"]["name"])
+          PY
+            )
+            echo "essai ${i} : ${statut}"
+            case "$statut" in
+              ok) exit 0 ;;
+              echec) echo "::error::Le deploiement Cloudflare a echoue."; exit 1 ;;
+            esac
+            sleep 10
+          done
+          echo "::error::Le deploiement n'a pas abouti en 10 minutes."
+          exit 1
+
+      - name: Le site repond en ligne
+        run: |
+          set -eu
+          code=$(curl -sS -o /dev/null -w '%{http_code}' "${SITE}/")
+          if [ "$code" != "200" ]; then
+            echo "::error::${SITE}/ repond ${code} apres le deploiement."
+            exit 1
+          fi
+          echo "${SITE}/ repond 200."
