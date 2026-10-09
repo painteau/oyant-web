@@ -77,6 +77,7 @@ jobs:
               print("::error::Cloudflare a refuse le declenchement : %s" % d.get("errors"))
               sys.exit(1)
           r = d["result"]
+          print("Deploiement %s lance sur le commit %s" % (r["id"], r["deployment_trigger"]["metadata"]["commit_hash"]))
           with open(os.environ["GITHUB_OUTPUT"], "a") as f:
               f.write("id=%s\n" % r["id"])
               f.write("commit=%s\n" % r["deployment_trigger"]["metadata"]["commit_hash"])
@@ -101,7 +102,11 @@ jobs:
               -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" > etat.json
             statut=$(python3 - <<'PY'
           import json
-          r = json.load(open("etat.json"))["result"]
+          d = json.load(open("etat.json"))
+          if not d.get("success") or not d.get("result"):
+              print("erreur " + json.dumps(d.get("errors")))
+              raise SystemExit(0)
+          r = d["result"]
           etapes = r["stages"]
           if any(e["status"] == "failure" for e in etapes):
               print("echec")
@@ -115,6 +120,7 @@ jobs:
             case "$statut" in
               ok) exit 0 ;;
               echec) echo "::error::Le deploiement Cloudflare a echoue."; exit 1 ;;
+              erreur*) echo "::error::Cloudflare a refuse la lecture de l'etat : ${statut}"; exit 1 ;;
             esac
             sleep 10
           done
