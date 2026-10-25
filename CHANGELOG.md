@@ -15,6 +15,10 @@ est désormais le seul récit de ce dépôt.
 
 ## [Unreleased]
 
+### Modifié
+
+- **Adresse de l'association : 34 rue Decomberousse, 69100 Villeurbanne** (le siège quitte le 4 rue Isabelle Sadoyan), dans `LICENSE.md`.
+
 ## [1.5.0] - 2026-10-09
 
 ### Modifié
