@@ -4,10 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Détails techniques : Oyant</title>
-  <meta name="description" content="Comment Oyant fonctionne : reconnaissance vocale whisper.cpp locale, modèles et moteurs, mesures de vitesse, installation sur Debian, Ubuntu et Arch, limites connues.">
+  <meta name="description" content="Comment Oyant fonctionne : reconnaissance vocale sur votre ordinateur, modèles et moteurs accélérés, le téléphone comme micro, installation sur Debian, Ubuntu et Arch, et où sont vos données.">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="canonical" href="https://oyant.breizhzion.com/details-techniques">
-  <link rel="stylesheet" href="style.css?v=0de9f079">
+  <link rel="stylesheet" href="style.css?v=ba39733c">
   <link rel="preload" href="polices/Fraunces-Variable.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="polices/IBMPlexSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
   <meta property="og:image" content="https://oyant.breizhzion.com/partage.png">
@@ -19,7 +19,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Détails techniques d’Oyant">
-  <meta property="og:description" content="whisper.cpp en local, les trois modèles et les trois moteurs avec leurs mesures, l'installation sur Debian, Ubuntu et Arch, et où les dictées sont écrites sur le disque.">
+  <meta property="og:description" content="La reconnaissance vocale sur votre ordinateur, les modèles et les moteurs accélérés, le téléphone comme micro, l'installation sous Linux et l'emplacement de vos données.">
   <meta property="og:url" content="https://oyant.breizhzion.com/details-techniques">
   <script type="application/ld+json">
   {
@@ -27,7 +27,7 @@
     "@type": "TechArticle",
     "@id": "https://oyant.breizhzion.com/details-techniques#article",
     "headline": "D\u00e9tails techniques d’Oyant",
-    "description": "Reconnaissance vocale whisper.cpp locale, mod\u00e8les et moteurs avec leurs mesures, installation sur Debian, Ubuntu et Arch, limites connues, emplacement des donn\u00e9es sur le disque.",
+    "description": "Reconnaissance vocale whisper.cpp ex\u00e9cut\u00e9e localement, mod\u00e8les et moteurs acc\u00e9l\u00e9r\u00e9s, t\u00e9l\u00e9phone comme micro, installation sur Debian, Ubuntu et Arch, emplacement des donn\u00e9es.",
     "inLanguage": "fr-FR",
     "url": "https://oyant.breizhzion.com/details-techniques",
     "isPartOf": { "@type": "WebSite", "@id": "https://oyant.breizhzion.com/#site", "name": "Oyant", "url": "https://oyant.breizhzion.com/", "inLanguage": "fr-FR" },
@@ -54,44 +54,53 @@
 
   <section class="page">
     <h1>Détails techniques</h1>
-    <p>Cette page est pour les personnes qui veulent savoir ce que le logiciel fait exactement, et pour celles qui installent Oyant sur une machine Linux. La page d'accueil suffit pour s'en servir.</p>
+    <p>Comment Oyant fonctionne, comment l'installer sous Linux, et où il range vos données. Pour simplement vous en servir, la page d'accueil suffit.</p>
 
-    <h2>Ce qui tourne réellement</h2>
-    <p>La reconnaissance vocale est assurée par <a href="https://github.com/ggml-org/whisper.cpp" rel="noopener">whisper.cpp</a>, exécuté en local, avec les modèles Whisper d'OpenAI. Le logiciel est écrit en Rust, l'interface en Tauri. Aucune requête réseau n'est nécessaire pour transcrire : les seules connexions qu’Oyant établit sont celles que l'utilisateur déclenche, pour télécharger un modèle ou un moteur accéléré, et chaque fichier reçu est vérifié par son empreinte SHA-256 avant d'être utilisé.</p>
+    <h2>Tout se passe sur votre ordinateur</h2>
+    <p>La reconnaissance vocale repose sur <a href="https://github.com/ggml-org/whisper.cpp" rel="noopener">whisper.cpp</a> et les modèles Whisper d'OpenAI, exécutés sur votre machine. Le logiciel est écrit en Rust, avec une interface Tauri, légère et rapide à démarrer.</p>
+    <p>Transcrire ne demande aucune connexion. Oyant ne se connecte à Internet que lorsque vous le lui demandez, pour télécharger un modèle de reconnaissance ou un moteur plus rapide, et chaque fichier reçu est vérifié par son empreinte avant d'être utilisé.</p>
 
-    <h2>Les trois modèles</h2>
-    <p>Téléchargés depuis le logiciel. Les durées ont été mesurées sur processeur, pour une même dictée d'une trentaine de secondes.</p>
+    <h2>Trois modèles, selon vos priorités</h2>
+    <p>Vous choisissez dans le logiciel, et vous pouvez changer à tout moment. Durées mesurées sur un processeur courant, pour une dictée d'une trentaine de secondes.</p>
     <div class="tableau-scroll">
-      <table class="tableau">
-        <thead>
-          <tr><th scope="col">Modèle</th><th scope="col">Poids</th><th scope="col">Durée mesurée</th><th scope="col">Pour qui</th></tr>
+      <table class="tableau tableau-cartes" role="table">
+        <thead role="rowgroup">
+          <tr role="row"><th scope="col" role="columnheader">Modèle</th><th scope="col" role="columnheader">Poids</th><th scope="col" role="columnheader">Durée</th><th scope="col" role="columnheader">Idéal pour</th></tr>
         </thead>
-        <tbody>
-          <tr><th scope="row">Small</th><td>488 Mo</td><td>environ 7 s</td><td>Le défaut. Le meilleur compromis pour de la dictée courante.</td></tr>
-          <tr><th scope="row">Medium</th><td>1,5 Go</td><td>environ 18 s</td><td>Plus précis, deux fois et demie l'attente.</td></tr>
-          <tr><th scope="row">Large v3</th><td>3,1 Go</td><td>non mesurée sur processeur seul</td><td>À réserver à une carte graphique.</td></tr>
+        <tbody role="rowgroup">
+          <tr role="row"><th scope="row" role="rowheader">Small</th><td role="cell" data-label="Poids">488 Mo</td><td role="cell" data-label="Durée">environ 7 s</td><td role="cell" data-label="Idéal pour">La dictée de tous les jours. C'est le choix proposé au départ.</td></tr>
+          <tr role="row"><th scope="row" role="rowheader">Medium</th><td role="cell" data-label="Poids">1,5 Go</td><td role="cell" data-label="Durée">environ 18 s</td><td role="cell" data-label="Idéal pour">Plus de précision, pour les textes longs ou techniques.</td></tr>
+          <tr role="row"><th scope="row" role="rowheader">Large v3</th><td role="cell" data-label="Poids">3,1 Go</td><td role="cell" data-label="Durée">plus long</td><td role="cell" data-label="Idéal pour">La meilleure précision, sur un ordinateur équipé d'une carte graphique.</td></tr>
         </tbody>
       </table>
     </div>
 
-    <h2>Les trois moteurs</h2>
-    <p>Le moteur processeur est <strong>embarqué dans l'installateur Windows</strong> : on peut dicter dès la fin de l'installation, sans rien télécharger d'autre. C'est délibéré, et c'est le seul moteur dont le logiciel ne peut pas se passer : si le catalogue distant est injoignable, on perd la vitesse, jamais la capacité à dicter.</p>
+    <h2>Plus rapide avec une carte graphique</h2>
+    <p>Oyant fonctionne sur n'importe quel ordinateur dès l'installation, sans rien télécharger d'autre. Si votre machine a une carte graphique, un moteur accéléré la met à contribution.</p>
     <div class="tableau-scroll">
-      <table class="tableau">
-        <thead>
-          <tr><th scope="col">Moteur</th><th scope="col">Poids</th><th scope="col">Matériel</th><th scope="col">Gain mesuré</th></tr>
+      <table class="tableau tableau-cartes" role="table">
+        <thead role="rowgroup">
+          <tr role="row"><th scope="col" role="columnheader">Moteur</th><th scope="col" role="columnheader">Poids</th><th scope="col" role="columnheader">Matériel</th><th scope="col" role="columnheader">Vitesse</th></tr>
         </thead>
-        <tbody>
-          <tr><th scope="row">Processeur</th><td>inclus</td><td>n'importe lequel</td><td>référence</td></tr>
-          <tr><th scope="row">Vulkan</th><td>21 Mo</td><td>AMD, Intel, NVIDIA</td><td>×3,4 sur une carte d'entrée de gamme déjà ancienne</td></tr>
-          <tr><th scope="row">CUDA</th><td>plus de 600 Mo</td><td>NVIDIA seulement</td><td>environ 15 % de plus que Vulkan</td></tr>
+        <tbody role="rowgroup">
+          <tr role="row"><th scope="row" role="rowheader">Processeur</th><td role="cell" data-label="Poids">inclus</td><td role="cell" data-label="Matériel">tous les ordinateurs</td><td role="cell" data-label="Vitesse">référence</td></tr>
+          <tr role="row"><th scope="row" role="rowheader">Vulkan</th><td role="cell" data-label="Poids">21 Mo</td><td role="cell" data-label="Matériel">cartes AMD, Intel et NVIDIA</td><td role="cell" data-label="Vitesse">jusqu'à 3,4 fois plus rapide</td></tr>
+          <tr role="row"><th scope="row" role="rowheader">CUDA</th><td role="cell" data-label="Poids">plus de 600 Mo</td><td role="cell" data-label="Matériel">cartes NVIDIA</td><td role="cell" data-label="Vitesse">environ 15 % de plus que Vulkan</td></tr>
         </tbody>
       </table>
     </div>
-    <p>Le moteur CUDA n'est proposé que si un pilote NVIDIA est détecté sur la machine : faire télécharger 600 Mo pour un moteur qui refusera de démarrer serait une mauvaise façon de découvrir qu'on n'a pas la bonne carte. Au vu du rapport entre les deux, Vulkan est le bon choix dans presque tous les cas.</p>
+    <p>Oyant ne vous propose que ce que votre ordinateur sait faire tourner : le moteur CUDA n'apparaît que si une carte NVIDIA est détectée. Dans presque tous les cas, Vulkan offre le meilleur rapport entre vitesse et poids.</p>
+
+    <h2>Le téléphone comme micro</h2>
+    <p>Avec l'application iPhone, bientôt disponible, votre téléphone sert de micro sans fil : il capte votre voix et l'envoie à votre ordinateur, qui la transcrit et écrit le texte là où se trouve votre curseur.</p>
+    <ul>
+      <li><strong>Directement sur votre réseau local.</strong> Le téléphone trouve l'ordinateur sur votre wifi, sans adresse à taper ni compte à créer, et rien ne transite par Internet.</li>
+      <li><strong>Une connexion chiffrée et authentifiée.</strong> À la première connexion, les deux appareils affichent le même code à quatre chiffres. Ensuite, chaque appareil prouve son identité par une clé qui ne quitte jamais le téléphone.</li>
+      <li><strong>Vous gardez la main.</strong> La fonction est désactivée tant que vous ne l'activez pas dans les réglages, et vous retirez un téléphone autorisé depuis la liste des appareils.</li>
+    </ul>
 
     <h2>Installer sous Debian ou Ubuntu</h2>
-    <p>Oyant est publié sur le dépôt apt de l'association. L'ajouter une fois suffit : les versions suivantes arrivent avec les mises à jour habituelles du système.</p>
+    <p>Oyant est publié sur le dépôt apt de l'association. Ajoutez-le une fois : les versions suivantes arrivent avec les mises à jour habituelles de votre système.</p>
     <pre class="code-block"><code>curl -fsSL https://apt.breizhzion.com/KEY.gpg \
   | sudo gpg --dearmor -o /usr/share/keyrings/breizhzion.gpg
 
@@ -100,7 +109,7 @@ https://apt.breizhzion.com stable main" \
   | sudo tee /etc/apt/sources.list.d/breizhzion.list
 
 sudo apt update &amp;&amp; sudo apt install oyant</code></pre>
-    <p>Le paquet déclare ses dépendances, elles s'installent avec lui. Pour un téléchargement direct sans ajouter de dépôt, le paquet seul est <a href="https://dl.breizhzion.com/oyant-desktop/Oyant-Linux-x64.deb">disponible ici</a>.</p>
+    <p>Les dépendances s'installent avec le paquet. Vous préférez un téléchargement direct ? Le paquet seul est <a href="https://dl.breizhzion.com/oyant-desktop/Oyant-Linux-x64.deb">disponible ici</a>.</p>
 
     <h2>Installer sous Arch</h2>
     <p>Dépôt pacman de l'association, paquets signés.</p>
@@ -111,35 +120,31 @@ curl -fsSL https://pacman.breizhzion.com/KEY.gpg | sudo pacman-key --add -
 sudo pacman-key --lsign-key apt@breizhzion.com
 
 sudo pacman -Syu oyant-bin</code></pre>
-    <p><strong>Bien <code>-Syu</code> et non <code>-Sy</code></strong> : synchroniser la base puis n'installer qu'un seul paquet est le motif de mise à jour partielle contre lequel Arch met explicitement en garde.</p>
+    <p>Utilisez bien <code>-Syu</code>, comme le recommande Arch, pour mettre le système à jour en même temps.</p>
 
-    <h2>Ce que le logiciel ne fait pas</h2>
+    <h2>Systèmes pris en charge</h2>
     <ul>
-      <li><strong>Wayland</strong> n'est pas pris en charge : le raccourci global et l'écriture dans la fenêtre active demandent des mécanismes différents de ceux de X11, et ils ne sont pas encore écrits.</li>
-      <li><strong>macOS</strong> se compile et un binaire est publié, mais la dictée n'y fonctionne pas : c'est le système qui demande le plus de travail spécifique, et il est explicitement remis à plus tard.</li>
-      <li>Pas de transcription en continu, pas de reformulation par un modèle de langue, pas d'interface en ligne de commande étendue, pas d'extension d'éditeur. Une version antérieure et abandonnée du projet en avait ; la version actuelle est repartie de zéro et fait volontairement moins.</li>
+      <li><strong>Windows 10 et 11</strong>, en 64 bits.</li>
+      <li><strong>Linux</strong>, sur les sessions X11. La prise en charge des bureaux Wayland est en cours.</li>
+      <li><strong>macOS</strong> : en préparation.</li>
     </ul>
 
-    <h2>Licence</h2>
-    <p>Le code est public sous <strong>BZ-1.1</strong>, une licence en accès libre : l'usage personnel par une personne physique est autorisé, l'usage commercial et la prestation pour un tiers sont réservés à l'association. Ce n'est <em>pas</em> une licence open source au sens de l'OSI, et nous préférons le dire clairement plutôt que d'emprunter le mot.</p>
-    <p>whisper.cpp, ggml et les modèles Whisper restent sous leur licence MIT d'origine, reproduite dans le fichier <code>NOTICE.md</code> du dépôt. La licence d’Oyant ne les recouvre pas.</p>
-
-    <h2>Où sont vos dictées sur le disque</h2>
-    <p>L'historique des dictées, les réglages et les modèles téléchargés vivent dans votre profil
-    utilisateur, sous l'identifiant <code>org.breizhzion.oyant.desktop</code>, et jamais dans le
-    répertoire d'installation :</p>
+    <h2>Où sont vos données</h2>
+    <p>Vos réglages, les modèles téléchargés et, si vous l'activez, l'historique de vos dictées sont rangés dans votre profil utilisateur, et nulle part ailleurs :</p>
     <div class="tableau-scroll">
-      <table class="tableau">
-        <thead><tr><th scope="col">Système</th><th scope="col">Emplacement</th></tr></thead>
-        <tbody>
-          <tr><th scope="row">Windows</th><td><code>%LOCALAPPDATA%\org.breizhzion.oyant.desktop</code></td></tr>
-          <tr><th scope="row">Linux</th><td><code>$XDG_DATA_HOME/org.breizhzion.oyant.desktop</code>, sinon <code>~/.local/share/...</code></td></tr>
-          <tr><th scope="row">macOS</th><td><code>~/Library/Application Support/org.breizhzion.oyant.desktop</code></td></tr>
+      <table class="tableau tableau-cartes" role="table">
+        <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">Système</th><th scope="col" role="columnheader">Emplacement</th></tr></thead>
+        <tbody role="rowgroup">
+          <tr role="row"><th scope="row" role="rowheader">Windows</th><td role="cell" data-label="Emplacement"><code>%LOCALAPPDATA%\org.breizhzion.oyant.desktop</code></td></tr>
+          <tr role="row"><th scope="row" role="rowheader">Linux</th><td role="cell" data-label="Emplacement"><code>~/.local/share/org.breizhzion.oyant.desktop</code></td></tr>
         </tbody>
       </table>
     </div>
-    <p>C'est le seul endroit où le texte de vos dictées existe. Supprimer ce répertoire les
-    supprime définitivement. ⚠️ <strong>L'historique vaut zéro par défaut</strong>, donc rien n'y est écrit tant qu'il n'est pas activé, et le remettre à zéro efface ce qui l'avait été. Il valait 20 jusqu'au 2026-09-18.</p>
+    <p>L'historique est désactivé par défaut : rien de ce que vous dictez n'est écrit sur le disque tant que vous ne l'avez pas choisi. Le remettre à zéro efface ce qui avait été gardé, et supprimer ce dossier efface tout définitivement.</p>
+
+    <h2>Licence</h2>
+    <p>Le code d'Oyant est public, sous licence <strong>BZ-1.1</strong> : chacun peut le lire, le vérifier et l'utiliser librement à titre personnel. L'usage commercial et la prestation pour un tiers sont réservés à l'association.</p>
+    <p>whisper.cpp, ggml et les modèles de reconnaissance vocale restent sous leur propre licence, reproduite dans le fichier <code>NOTICE.md</code> du dépôt.</p>
   </section>
 
   <footer>

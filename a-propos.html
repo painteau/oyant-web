@@ -7,7 +7,7 @@
   <meta name="description" content="Oyant est un logiciel de dictée vocale locale édité par l'association BREIZHZION. Code source public sous licence BZ-1.1, transcription entièrement sur la machine de l'utilisateur.">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="canonical" href="https://oyant.breizhzion.com/a-propos">
-  <link rel="stylesheet" href="style.css?v=0de9f079">
+  <link rel="stylesheet" href="style.css?v=ba39733c">
   <link rel="preload" href="polices/Fraunces-Variable.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="polices/IBMPlexSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
   <meta property="og:image" content="https://oyant.breizhzion.com/partage.png">
@@ -56,25 +56,24 @@
   <section class="page">
     <h1>À propos d’Oyant</h1>
 
-    <p>Oyant est un logiciel de dictée vocale édité par <a href="https://breizhzion.com" rel="noopener">BREIZHZION</a>, association d'intérêt général à Villeurbanne. Il est né d'un besoin simple : dicter du texte sans qu'un service distant reçoive une copie de tout ce qu'on prononce.</p>
+    <p>Oyant est un logiciel de dictée vocale édité par <a href="https://breizhzion.com" rel="noopener">BREIZHZION</a>, association d'intérêt général installée à Villeurbanne. Il répond à un besoin simple : dicter vite, sans qu'un service distant reçoive une copie de tout ce qu'on prononce.</p>
 
-    <h2>La promesse, et ce qui la rend vérifiable</h2>
-    <p>La reconnaissance vocale s'exécute sur la machine de l'utilisateur. Il n'y a pas de compte, pas de clé d'API, pas de quota, et aucune requête réseau nécessaire pour transcrire. Ce n'est pas une politique de confidentialité qui le promet : c'est une conséquence de la façon dont le logiciel est construit, et le moyen le plus direct de s'en convaincre est de couper le réseau et de continuer à dicter.</p>
-    <p>Les seules connexions qu’Oyant établit sont celles que l'utilisateur déclenche lui-même : télécharger un modèle de reconnaissance vocale, ou télécharger un moteur accéléré pour carte graphique. Chaque fichier reçu est vérifié par son empreinte avant d'être utilisé.</p>
+    <h2>Une promesse que vous pouvez vérifier</h2>
+    <p>La reconnaissance vocale s'exécute sur votre ordinateur. Pas de compte, pas d'abonnement, pas de quota, et aucune connexion nécessaire pour transcrire. Ce n'est pas une clause de confidentialité qui le garantit, c'est la façon dont le logiciel est construit : coupez le réseau, continuez à dicter, et constatez-le vous-même.</p>
+    <p>Oyant ne se connecte à Internet que lorsque vous le lui demandez, pour télécharger un modèle de reconnaissance ou un moteur accéléré, et chaque fichier reçu est vérifié avant d'être utilisé.</p>
 
-    <h2>Le code</h2>
-    <p>Le code source est public sur <a href="https://github.com/bzhzion/oyant-desktop" rel="noopener">github.com/bzhzion/oyant-desktop</a>, sous licence <strong>BZ-1.1</strong>. C'est une licence en accès libre, pas une licence open source au sens de l'OSI : l'usage personnel par une personne physique est autorisé, l'usage commercial et la prestation pour un tiers sont réservés à l'association. Le texte complet, en français et en anglais, est dans le dépôt.</p>
-    <p>Le logiciel est écrit en Rust. La reconnaissance vocale repose sur <a href="https://github.com/ggml-org/whisper.cpp" rel="noopener">whisper.cpp</a> et sur les modèles Whisper d'OpenAI, tous deux sous licence MIT, reproduite dans le fichier <code>NOTICE.md</code> du dépôt. Ces composants restent sous leur propre licence, que la nôtre ne recouvre pas.</p>
+    <h2>Pourquoi une association</h2>
+    <p>Un logiciel de dictée entend ce que vous avez de plus confidentiel. Nous pensons qu'il ne doit dépendre ni d'un abonnement, ni d'un serveur, ni d'actionnaires. BREIZHZION développe des outils numériques au service de l'intérêt général : Oyant est gratuit, et il le restera.</p>
 
-    <h2>Une réécriture complète</h2>
-    <p>Une première version d’Oyant a existé jusqu'à une v1.7 en juin 2026. Elle a été <strong>reprise de zéro</strong> en septembre 2026, et la version actuelle ne partage aucun code avec elle. Le motif était mesuré plutôt que ressenti : plus de sept mille lignes livrées sur sept versions mineures, sans un seul test automatisé et sans aucune vérification qui compile le projet.</p>
-    <p>La conséquence assumée est qu'il n'y a <strong>aucune compatibilité</strong> entre les deux. Les réglages, l'historique et les modèles de l'ancienne version ne sont pas repris, et la version actuelle fait volontairement moins de choses. La liste de la page d'accueil décrit ce qui existe, pas ce qui est prévu.</p>
+    <h2>Un code ouvert à la vérification</h2>
+    <p>Le code source est public sur <a href="https://github.com/bzhzion/oyant-desktop" rel="noopener">github.com/bzhzion/oyant-desktop</a>, sous licence <strong>BZ-1.1</strong> : chacun peut le lire, le vérifier ou le faire vérifier par la personne de son choix, et l'utiliser librement à titre personnel. L'usage commercial et la prestation pour un tiers sont réservés à l'association.</p>
+    <p>Oyant est écrit en Rust. La reconnaissance vocale repose sur <a href="https://github.com/ggml-org/whisper.cpp" rel="noopener">whisper.cpp</a> et les modèles Whisper d'OpenAI, qui restent sous leur propre licence, reproduite dans le fichier <code>NOTICE.md</code> du dépôt.</p>
 
-    <h2>Ce qui n'existe pas encore</h2>
-    <p>Sous Linux, la dictée fonctionne sur une session X11 ; sur Wayland, le raccourci global et l'écriture dans l'application active ne sont pas encore pris en charge. Sur macOS, le logiciel se compile mais la dictée n'est pas disponible. Ces manques sont dans cet ordre de priorité, et ils sont écrits ici pour que personne ne les découvre après l'installation.</p>
+    <h2>Disponible aujourd'hui, et ensuite</h2>
+    <p>Oyant fonctionne sous <strong>Windows 10 et 11</strong> et sous <strong>Linux</strong> (sessions X11). Arrivent ensuite l'application iPhone, qui fera de votre téléphone le micro de votre ordinateur, la prise en charge des bureaux Wayland, et une version Mac.</p>
 
     <h2>Nous écrire</h2>
-    <p>Les problèmes et les demandes passent par les <a href="https://github.com/bzhzion/oyant-desktop/issues" rel="noopener">issues du dépôt</a>. Pour le reste, <a href="mailto:contact@breizhzion.com">contact@breizhzion.com</a>.</p>
+    <p>Une question, une idée, un problème ? Écrivez-nous à <a href="mailto:contact@breizhzion.com">contact@breizhzion.com</a>, ou ouvrez une demande sur <a href="https://github.com/bzhzion/oyant-desktop/issues" rel="noopener">le dépôt du projet</a>.</p>
   </section>
 
   <footer>

@@ -15,8 +15,28 @@ est désormais le seul récit de ce dépôt.
 
 ## [Unreleased]
 
+### Ajouté
+
+- **Le téléphone comme micro de l'ordinateur, présenté sur l'accueil**, annoncé « bientôt sur
+  iPhone » : l'application n'est que sur TestFlight, donc rien n'est présenté comme disponible.
+  L'ancienne section mobile parlait d'une aide à la rédaction et d'un « compte chez le fournisseur
+  de votre choix » qui ne correspondait plus au produit, elle est retirée.
+
 ### Modifié
 
+- **Tout le site est réécrit pour le visiteur**, sur la demande de painteau : il parlait comme un
+  compte rendu interne, s'excusait (« nous préférons l'écrire nous-mêmes »), se justifiait
+  (« prétendre le contraire serait malhonnête ») et finissait par recommander les concurrents.
+  Page technique, comparatif et à-propos réécrits en entier, accueil retouché, `llms.txt` refait.
+  Ce qui est retiré parce que c'était de l'histoire interne, pas un fait utile au visiteur :
+  l'ancienne valeur de l'historique, la réécriture de la v1, les « sept mille lignes sans test ».
+  ⚠️ **Rien n'est présenté comme disponible s'il ne l'est pas dans la v0.3.0 publiée** : Mac,
+  Wayland et iPhone sont « en préparation » ou « bientôt ». La liste des langues est corrigée
+  (six langues et la détection automatique, elle en annonçait deux).
+- **Responsive partout, vérifié dans un navigateur de 320 à 1280 px sur les cinq pages** : les
+  tableaux de la page technique deviennent eux aussi des fiches sur téléphone, et deux grilles
+  de l'accueil (métiers, cartes) débordaient à 320 px, faute de `min(…, 100%)` dans leur
+  largeur minimale.
 - **Le tableau de la page comparatif devient une fiche par logiciel sur téléphone** (sous
   640 px). Il imposait 540 px de large et se lisait en faisant défiler de côté, six lignes de
   cellules longues. Chaque valeur y est précédée de son intitulé. Vérifié dans un vrai navigateur
