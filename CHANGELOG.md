@@ -15,6 +15,8 @@ est désormais le seul récit de ce dépôt.
 
 ## [Unreleased]
 
+## [1.7.0] - 2026-10-31
+
 ### Ajouté
 
 - **Le téléphone comme micro de l'ordinateur, présenté sur l'accueil**, annoncé « bientôt sur
