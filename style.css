@@ -539,6 +539,36 @@ nav {
 .tableau tbody th[scope="row"] { font-weight: 700; white-space: nowrap; color: var(--text); }
 .tableau tbody td { color: #cfcddb; font-variant-numeric: tabular-nums; }
 
+/* Sur un telephone, le tableau comparatif devient une fiche par logiciel : six lignes de cellules
+ * longues ne se lisent pas en faisant defiler de cote. Classe dediee, pour ne pas toucher aux
+ * tableaux techniques, dont les cellules sont courtes.
+ *
+ * ⚠️ Passer un tableau en blocs lui fait perdre sa structure de tableau dans certains navigateurs :
+ * les roles ARIA sont donc poses dans le HTML, et l'intitule ajoute devant chaque valeur porte un
+ * texte alternatif vide (« / "" »), pour qu'un lecteur d'ecran ne le lise pas en plus de l'en-tete
+ * de colonne qu'il annonce deja. */
+@media (max-width: 640px) {
+  .tableau-cartes { min-width: 0; }
+  .tableau-cartes thead {
+    position: absolute; width: 1px; height: 1px; overflow: hidden;
+    clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+  }
+  .tableau-cartes,
+  .tableau-cartes tbody,
+  .tableau-cartes tr,
+  .tableau-cartes th,
+  .tableau-cartes td { display: block; width: 100%; }
+  .tableau-cartes tbody tr { padding: 16px 0; border-bottom: var(--filet); }
+  .tableau-cartes tbody th[scope="row"] {
+    padding: 0 0 8px; border-bottom: 0; white-space: normal; font-size: 1.05rem;
+  }
+  .tableau-cartes tbody td { padding: 4px 0; border-bottom: 0; }
+  .tableau-cartes tbody td::before {
+    content: attr(data-label) " : " / "";
+    color: var(--muted); font-weight: 600;
+  }
+}
+
 /* ── Pied de page ───────────────────────────────────────────────────────────── */
 footer { padding: 56px 0 64px; border-top: var(--filet); background: var(--bg2); }
 .footer-inner {

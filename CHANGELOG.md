@@ -15,6 +15,17 @@ est désormais le seul récit de ce dépôt.
 
 ## [Unreleased]
 
+### Modifié
+
+- **Le tableau de la page comparatif devient une fiche par logiciel sur téléphone** (sous
+  640 px). Il imposait 540 px de large et se lisait en faisant défiler de côté, six lignes de
+  cellules longues. Chaque valeur y est précédée de son intitulé. Vérifié dans un vrai navigateur
+  à 390 px (aucun défilement horizontal) et à 1280 px (tableau inchangé). ⚠️ Les rôles ARIA sont
+  posés dans le HTML, parce qu'un tableau passé en blocs perd sa structure de tableau dans
+  certains navigateurs, et l'intitulé ajouté par CSS porte un texte alternatif vide pour qu'un
+  lecteur d'écran ne le lise pas en double. Classe dédiée `tableau-cartes` : les tableaux de la
+  page technique ne changent pas.
+
 ## [1.6.0] - 2026-10-31
 
 ### Modifié
