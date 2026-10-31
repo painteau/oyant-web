@@ -15,6 +15,19 @@ est désormais le seul récit de ce dépôt.
 
 ## [Unreleased]
 
+## [1.7.1] - 2026-10-31
+
+### Modifié
+
+- **L'application mobile est présentée en entier, et pour iPhone ET Android.** La 1.7.0 la
+  réduisait à un micro pour l'ordinateur, sur iPhone seulement (painteau : « ce n'est pas juste un
+  micro »). La section de l'accueil, « Oyant dans votre poche », en montre six usages relevés dans
+  le code de `oyant-app` : dictée sur le téléphone, dossiers avec notes de contexte, transcription
+  d'un enregistrement partagé, traduction facultative, micro de l'ordinateur, sauvegarde dans
+  l'iCloud de l'utilisateur. ⚠️ **La traduction est dite pour ce qu'elle est** : seul le texte part,
+  jamais la voix. Repris dans le comparatif, la page technique, l'à-propos et `llms.txt`. Toujours
+  annoncée « bientôt » : TestFlight sur iPhone, jamais publiée sur Play.
+
 ## [1.7.0] - 2026-10-31
 
 ### Ajouté

@@ -23,9 +23,11 @@
 
 ## À venir
 
-- Application iPhone : le téléphone sert de micro sans fil à l'ordinateur, directement sur le
-  réseau local, connexion chiffrée après un code à quatre chiffres. Elle dicte aussi seule, sur
-  le téléphone.
+- Application mobile pour iPhone et Android : transcription sur le téléphone sans que la voix en
+  sorte, dictées rangées par dossier avec notes de contexte, transcription d'un enregistrement
+  partagé depuis une autre application, traduction facultative (seul le texte part),
+  sauvegarde dans l'iCloud de l'utilisateur. Elle sert aussi de micro sans fil à l'ordinateur,
+  directement sur le réseau local, connexion chiffrée après un code à quatre chiffres.
 - Prise en charge des bureaux Wayland sous Linux (X11 aujourd'hui).
 - Version Mac.
 
