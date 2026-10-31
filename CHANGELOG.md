@@ -15,8 +15,20 @@ est désormais le seul récit de ce dépôt.
 
 ## [Unreleased]
 
+## [1.6.0] - 2026-10-31
+
 ### Modifié
 
+- **Page comparatif : Handy et OpenWhispr y figurent**, relevés le 2026-10-31 dans leur code
+  public. Ils sont gratuits, libres, et leur interface existe en français, donc le motif qu'on
+  pensait donner pour les omettre (« en anglais, pour un public technique ») aurait été faux.
+  Conséquences : la section « ce qu'Oyant fait et que les autres ne font pas » devient « que les
+  solutions payantes ne font pas », avec la précision que Handy partage les trois premiers points,
+  et la réponse de FAQ « Oyant est-il le seul » est réécrite dans le JSON-LD. OpenWhispr est
+  décrit tel que son écran d'accueil le présente : service en ligne avec compte, ou transcription
+  sur l'appareil, au choix.
+- **Le vocabulaire personnel est annoncé comme livré** (v0.3.0 du 2 octobre), la page le disait
+  encore à venir.
 - **Adresse de l'association : 34 rue Decomberousse, 69100 Villeurbanne** (le siège quitte le 4 rue Isabelle Sadoyan), dans `LICENSE.md`.
 
 ## [1.5.0] - 2026-10-09

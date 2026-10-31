@@ -33,7 +33,7 @@
         "inLanguage": "fr-FR",
         "url": "https://oyant.breizhzion.com/comparatif",
         "datePublished": "2026-09-24",
-        "dateModified": "2026-09-24",
+        "dateModified": "2026-10-31",
         "isPartOf": { "@id": "https://oyant.breizhzion.com/#site" },
         "about": { "@id": "https://oyant.breizhzion.com/#app" },
         "publisher": { "@id": "https://breizhzion.com/#organization" },
@@ -57,7 +57,7 @@
           {
             "@type": "Question",
             "name": "Oyant est-il le seul logiciel de dictée à transcrire en local ?",
-            "acceptedAnswer": { "@type": "Answer", "text": "Non, et ce serait malhonnête de le laisser croire. D'autres éditeurs font le même choix technique, notamment sur le marché médical français. Ce qui distingue Oyant est ailleurs : il est gratuit, sans compte, son code est public et vérifiable, il fonctionne sous Linux, et il est édité par une association et non par une société." }
+            "acceptedAnswer": { "@type": "Answer", "text": "Non, et ce serait malhonnête de le laisser croire. D'autres éditeurs font le même choix technique, notamment sur le marché médical français, et deux logiciels libres et gratuits, Handy et OpenWhispr, transcrivent eux aussi sur votre ordinateur, sur Mac en plus de Windows et Linux. Ce qui distingue Oyant est plus modeste : il est pensé d'abord pour le français, il ne propose aucun mode en ligne, même en option, et il est édité par une association d'intérêt général." }
           },
           {
             "@type": "Question",
@@ -88,7 +88,7 @@
   <section class="page">
     <h1>Oyant face aux autres logiciels de dictée</h1>
     <p>Cette page compare Oyant aux autres solutions de dictée vocale que l'on trouve en France, <strong>y compris là où elles font mieux que lui</strong>. Il y a plusieurs bons logiciels de dictée, et Oyant n'est pas le bon choix pour tout le monde. Autant l'écrire nous-mêmes plutôt que vous laisser le découvrir après l'installation.</p>
-    <p>Les faits sur les autres logiciels ont été relevés le <strong>24 septembre 2026</strong> sur les sites de leurs éditeurs. Une comparaison vieillit vite : si vous lisez ceci longtemps après, vérifiez chez eux.</p>
+    <p>Les faits sur les autres logiciels ont été relevés le <strong>24 septembre 2026</strong> sur les sites de leurs éditeurs, et le <strong>31 octobre 2026</strong> pour Handy et OpenWhispr, dans leur code public. Une comparaison vieillit vite : si vous lisez ceci longtemps après, vérifiez chez eux.</p>
 
     <h2>La seule question qui change vraiment quelque chose</h2>
     <p>Tous les logiciels de dictée écrivent du texte à partir de votre voix. Ils se séparent en deux familles, et la frontière ne passe pas par la qualité de la transcription mais par <strong>l'endroit où votre voix est comprise</strong>.</p>
@@ -118,7 +118,8 @@
       <li><strong>La dictée depuis un téléphone.</strong> Plusieurs concurrents sont d'abord mobiles. Notre application arrive, elle n'est pas encore là.</li>
     </ul>
 
-    <h2>Ce qu’Oyant fait et que les autres ne font pas</h2>
+    <h2>Ce qu’Oyant fait et que les solutions payantes ne font pas</h2>
+    <p>Une précision d'abord : les trois premiers points de cette liste, Handy les partage avec nous, et OpenWhispr aussi quand on le règle en local. Ils sont présentés plus bas.</p>
     <ul>
       <li><strong>Il est gratuit et ne demande aucun compte.</strong> Pas d'essai, pas d'abonnement, pas d'adresse électronique à donner. Rien ne vous identifie parce que rien ne nous est transmis.</li>
       <li><strong>Son code est public et vérifiable.</strong> La phrase « vos données ne quittent pas votre ordinateur » est une promesse chez les autres, et une affirmation contrôlable ici : le code qui écoute le micro est lisible par n'importe qui, et par la personne de votre choix si ce n'est pas vous.</li>
@@ -127,8 +128,8 @@
       <li><strong>Il est édité par une association d'intérêt général</strong>, pas par une société. Il n'y a pas d'actionnaire à qui un jour la donnée manquerait.</li>
     </ul>
 
-    <h2>Le tableau, au 24 septembre 2026</h2>
-    <p>Relevé sur les sites des éditeurs à cette date, et volontairement limité aux faits qui s'y lisent noir sur blanc.</p>
+    <h2>Le tableau, au 31 octobre 2026</h2>
+    <p>Relevé sur les sites des éditeurs, et dans le code public pour les logiciels qui en ont un. Volontairement limité aux faits qui s'y lisent noir sur blanc.</p>
     <div class="tableau-scroll">
       <table class="tableau">
         <thead>
@@ -146,6 +147,20 @@
             <td>Sur votre ordinateur</td>
             <td>Windows, Linux</td>
             <td>Gratuit, sans compte</td>
+            <td>Oui, public</td>
+          </tr>
+          <tr>
+            <th scope="row">Handy</th>
+            <td>Sur votre ordinateur</td>
+            <td>Windows, macOS, Linux</td>
+            <td>Gratuit, sans compte</td>
+            <td>Oui, public</td>
+          </tr>
+          <tr>
+            <th scope="row">OpenWhispr</th>
+            <td>Au choix : sur votre ordinateur, ou sur ses serveurs avec un compte</td>
+            <td>Windows, macOS, Linux</td>
+            <td>Gratuit en local, 2 000 mots gratuits par semaine en ligne</td>
             <td>Oui, public</td>
           </tr>
           <tr>
@@ -173,13 +188,20 @@
       </table>
     </div>
     <p>Une remarque qui compte plus que le tableau : <strong>Oyant n'est pas le seul à transcrire en local</strong>, et prétendre le contraire serait malhonnête. Sur le marché médical français, d'autres éditeurs ont fait le même choix technique. Ce qui nous sépare d'eux n'est pas le lieu de la transcription, c'est le prix, le système d'exploitation, et le fait que notre code soit ouvert à la vérification.</p>
-    <p>À côté de ces produits existe aussi une famille de logiciels libres gratuits, pour la plupart en anglais et destinés à un public technique. Ils font la même chose qu’Oyant, souvent bien, et généralement sans installateur ni interface pour quelqu'un qui n'est pas développeur.</p>
+
+    <h2>Handy et OpenWhispr, gratuits et libres eux aussi</h2>
+    <p>Ces deux logiciels font le même métier qu’Oyant, gratuitement, avec un code public, et leur interface existe en français. Ils sont plus connus que nous, et sur plusieurs points ils sont tout simplement meilleurs. Si vous les découvrez ici, essayez-les.</p>
+    <ul>
+      <li><strong>Handy</strong> transcrit tout sur votre ordinateur, sans compte. Il fonctionne aussi sur Mac, propose davantage de modèles de reconnaissance vocale que nous, et c'est de loin le plus connu de ces logiciels. Pour quelqu'un sur Mac, c'est aujourd'hui le choix évident.</li>
+      <li><strong>OpenWhispr</strong> va plus loin que la dictée : prise de notes, transcription de réunions, assistant vocal relié à des modèles d'intelligence artificielle. Il fonctionne lui aussi sur Mac. À sa première ouverture, il propose de choisir entre son service en ligne, avec un compte, et la transcription sur votre appareil : <strong>la transcription locale y est un choix</strong>, pas le seul mode. Si votre voix ne doit pas sortir, choisissez « Sur votre appareil », et faites le test du réseau coupé.</li>
+    </ul>
+    <p>Ce qu’Oyant apporte en plus est plus modeste, et nous préférons l'écrire tel quel : un logiciel pensé d'abord pour le français (espaces avant les signes doubles, majuscules, remplacements que vous définissez), qui ne propose <strong>aucun</strong> mode en ligne, même en option, et qui est édité par une association d'intérêt général installée à Villeurbanne.</p>
 
     <h2>Ce qui est prévu, et ce qui ne l'est pas</h2>
     <p>Écrit ici pour que personne n'attende ce qui ne viendra pas.</p>
     <ul>
       <li><strong>Une application iPhone</strong>, sur le même principe : la reconnaissance vocale s'exécute sur l'appareil. Elle est en cours, sans date annoncée.</li>
-      <li><strong>Un vocabulaire personnel</strong>, pour apprendre au logiciel les noms propres et les termes de votre métier. Le code est écrit, il n'est pas encore publié : il arrivera dans une version à venir, et cette ligne changera ce jour-là.</li>
+      <li><strong>Le vocabulaire personnel est arrivé</strong> avec la version 0.3.0 du 2 octobre 2026 : vous pouvez apprendre au logiciel les noms propres et les termes de votre métier.</li>
       <li><strong>Les bureaux Wayland sous Linux</strong>, aujourd'hui non pris en charge alors qu'ils sont devenus le choix par défaut d'Ubuntu et de Fedora. C'est notre manque le plus gênant sous Linux.</li>
       <li><strong>Une version pour Mac n'est pas prévue à court terme.</strong> Le logiciel s'y compile, mais la dictée n'y fonctionne pas, et rien ne sert de l'annoncer avant que ce soit vrai.</li>
       <li><strong>L'insertion dans un logiciel métier et les pédaliers ne sont pas au programme.</strong> Ce sont des chantiers d'éditeur professionnel, et nous n'en sommes pas un.</li>
