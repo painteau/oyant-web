@@ -15,6 +15,9 @@ est désormais le seul récit de ce dépôt.
 
 ## [Unreleased]
 
+### Modifié
+- `.gitignore` : toute variante `.env.*` est ignorée, sauf `.env.example`. Une copie de sauvegarde `.env.bak-*` porte les mêmes secrets que `.env` (règle de parc du 2026-11-03).
+
 ## [1.7.1] - 2026-10-31
 
 ### Modifié
